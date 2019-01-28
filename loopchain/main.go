@@ -16,8 +16,8 @@ func chain(chain ...http.HandlerFunc) http.Handler {
 }
 
 func main() {
-	http.Handle("/api/v1", chain(logger, businessLogic("compile-time param", runTimeFunc)))
-	log.Print("Listening...")
+	http.Handle("/api/v1", chain(logger, businessLogic("99999", runTimeFunc)))
+	log.Print("Listening (loopchain) ...")
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatal(err.Error())
@@ -34,7 +34,7 @@ func runTimeFunc() int {
 
 func businessLogic(p1 string, runTimeFunc func() int) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		v := fmt.Sprintf("Logic with extra compile-time params: %v, %v", p1, runTimeFunc())
+		v := fmt.Sprintf("Logic with server-start-time param: %v, run-time param: %v", p1, runTimeFunc())
 		log.Print(v)
 		fmt.Fprint(w, v)
 	}
