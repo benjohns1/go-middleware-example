@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	http.Handle("/api/v1", middleware.Chain(middleware.Logger, middleware.Auth(middleware.RandAuthStrategy), requestHandler()))
+	http.Handle("/api/v1", middleware.Chain(middleware.Logger, middleware.Auth(middleware.RandAuthStrategy), requestHandler)
 	log.Print("Listening (apiexample) ...")
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
@@ -23,21 +23,19 @@ type jsonData struct {
 	Data string `json:"data"`
 }
 
-func requestHandler() middleware.Factory {
-	return func(next http.HandlerFunc) http.HandlerFunc {
-		return func(w http.ResponseWriter, r *http.Request) {
-			var v string
-			responseData, err := businessdomain.BusinessLogic()
-			if err == nil {
-				w.WriteHeader(200)
-				v = fmt.Sprintf("Ran business logic")
-			} else {
-				w.WriteHeader(400)
-				v = fmt.Sprintf("Failed to run business logic")
-			}
-			log.Print(v)
-			render.JSON(w, r, jsonData(*responseData))
-			next(w, r)
+func requestHandler(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var v string
+		responseData, err := businessdomain.BusinessLogic()
+		if err == nil {
+			w.WriteHeader(200)
+			v = fmt.Sprintf("Ran business logic")
+		} else {
+			w.WriteHeader(400)
+			v = fmt.Sprintf("Failed to run business logic")
 		}
+		log.Print(v)
+		render.JSON(w, r, jsonData(*responseData))
+		next(w, r)
 	}
 }
