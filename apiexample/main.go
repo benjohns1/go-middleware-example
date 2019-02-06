@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	http.Handle("/api/v1", middleware.Chain(middleware.Logger, middleware.Auth(middleware.RandAuthStrategy), requestHandler)
+	http.Handle("/api/v1", middleware.Chain(middleware.Logger, middleware.Auth(middleware.RandAuthStrategy), requestHandler))
 	log.Print("Listening (apiexample) ...")
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
