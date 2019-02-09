@@ -3,6 +3,8 @@ loopchain
 !loopchain/
 recursivechain
 !recursivechain/
+finalhandler
+!finalhandler/
 customstate
 !customstate/
 apiexample
