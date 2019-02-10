@@ -11,6 +11,11 @@ func RandAuthStrategy() bool {
 	return rand.Intn(2) == 1
 }
 
+// PublicAuthStrategy authorizes all requests
+func PublicAuthStrategy() bool {
+	return true
+}
+
 // Auth generates an http request auth method with the given strategy
 func Auth(authStrategy func() bool) Factory {
 	return func(next http.HandlerFunc) http.HandlerFunc {
